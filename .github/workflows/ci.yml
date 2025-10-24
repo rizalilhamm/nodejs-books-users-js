@@ -1,0 +1,22 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install deps
+        run: npm install
+      - name: Generate Prisma client & push schema (sqlite)
+        env:
+          DATABASE_URL: file:./dev.db
+        run: npx prisma generate && npx prisma db push --preview-feature
+      - name: Run tests
+        env:
+          DATABASE_URL: file:./dev.db
+          JWT_SECRET: testsecret
+        run: npm test
