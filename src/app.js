@@ -5,13 +5,17 @@ dotenv.config();
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
 const bookRoutes = require('./routes/book.routes');
+const fundraiserRoutes = require('./routes/fundraiser.routes');
 
 const app = express();
 app.use(express.json());
 
+app.get('/', (req, res) => res.send('Hello World!'));
+
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/books', bookRoutes);
+app.use('/api/fundraisers', fundraiserRoutes);
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
